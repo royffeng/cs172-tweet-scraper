@@ -2,7 +2,7 @@
 from venv import create
 import tweepy
 import json
-import pymongo
+import pymongo 
 
 consumer_key = ''
 consumer_secret = ''
@@ -12,6 +12,11 @@ access_secret = ''
 auth = tweepy.OAuth1UserHandler(
         consumer_key, consumer_secret, access_token, access_secret
 )
+
+client = MongoClient('localhost', 27017)
+database = client['group5tweets']
+database.collection.ensure_index('tweet_id_str', unique=True, dropDups=True)
+collection = database['collection']
 
 api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 
@@ -30,11 +35,11 @@ class StdOutListener(tweepy.StreamListener):
                         favorite_count = full_tweet["favorite_count"]
                         hashtags = full_tweet['entities']['hashtags']
 
-                        tweet_info = {'id_str': tweet_id_str, 'tweet_text': tweet_text, 'created_at': created_at, 'name': name, 'screen_name': screen_name, 'place': place, 'favorite_count': favorite_count, 'hashtags': hashtags}
+                        tweet_info = {'tweet_id_str': tweet_id_str, 'tweet_text': tweet_text, 'created_at': created_at, 'name': name, 'screen_name': screen_name, 'place': place, 'favorite_count': favorite_count, 'hashtags': hashtags}
 
-                        #save tweet_info to db here collection.save(tweet_info)
+                        collection.save(tweet_info)
 
-                        print tweet_id_str + ',' + tweet_text + ',' + created_at + ',' + name + ',' + screen_name + ',' + place + ',' + favorite_count + ',' + hashtags
+                        print(tweet_id_str + ',' + tweet_text + ',' + created_at + ',' + name + ',' + screen_name + ',' + place + ',' + favorite_count + ',' + hashtags)
 
                         return True
 
