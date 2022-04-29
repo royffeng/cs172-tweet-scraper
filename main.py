@@ -10,7 +10,7 @@ access_secrete = ''
 #two options: either return the current size of our stored stuff (idk how lol) or just run the 500k cap anyways (i'm thinking the ladder)
 #tweetcap = 500000; (500k comes from the cap on my account) - michael
 
-auth = tweepy.0Auth1UserHandler(
+auth = tweepy.OAuth1UserHandler(
         consumer_key, consumer_secret, access_token, access_secret
 )
 
