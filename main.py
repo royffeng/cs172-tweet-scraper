@@ -25,8 +25,6 @@ class StdOutListener(tweepy.StreamingClient):
 
         def on_data(self, data):
                 full_tweet = json.loads(data)
-
-                
                 tweet_id = full_tweet['id']
                 tweet_text = full_tweet['text']
                 created_at = full_tweet['created_at']
@@ -35,9 +33,7 @@ class StdOutListener(tweepy.StreamingClient):
                 place = full_tweet['place']
                 favorite_count = full_tweet['favorite_count']
                 hashtags = full_tweet['entities']['hashtags']
-
                 tweet_info = {'id': tweet_id, 'tweet_text': tweet_text, 'created_at': created_at, 'name': name, 'screen_name': screen_name, 'place': place, 'favorite_count': favorite_count, 'hashtags': hashtags}
-
                 collection.insert(tweet_info)
 
                 print(tweet_id + ',' + tweet_text + ',' + created_at + ',' + name + ',' + screen_name + ',' + place + ',' + favorite_count + ',' + hashtags)
